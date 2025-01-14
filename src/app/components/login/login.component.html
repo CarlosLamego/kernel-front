@@ -1,0 +1,52 @@
+<div style="display: flex">
+  <div class="lado-a">
+    <div class="container-kernel">
+      <div class="logo-nome">
+        <img class="img-kernel" src="assets/Frame.png" alt="framejpg" />
+      </div>
+      <div class="login-senha">
+        <form class="login_form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <input
+            class="placeholder"
+            placeholder="Login ou e-mail"
+            formControlName="login"
+          />
+          <input
+            class="placeholder"
+            placeholder="Senha"
+            formControlName="senha"
+          />
+          <a href=""><p>Esqueci minha senha</p></a>
+          <div class="enter">
+            <button
+              class="enter-btn"
+              (mousedown)="isPressed = true"
+              (mouseup)="isPressed = false"
+              (mouseleave)="isPressed = false"
+              [class.pressed]="isPressed"
+
+            >
+              ENTRAR
+            </button>
+            <!-- <a href=""><p>Saiba mais sobre o Kernel</p></a> -->
+          </div>
+          <div class="login__alert-message">
+            @if (loginForm.invalid) { @if
+            (loginForm.hasError('invalidCredentials')) {
+            <p class="poppins-semibold">Credenciais inválidas</p>
+            } @if (loginForm.hasError('generalCredentialsError')) {
+            <p class="poppins-semibold">
+              Ocorreu um erro inesperado, tente novamente mais tarde
+            </p>
+            } }
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="lado-b">
+    <div class="container-b">
+      <!-- <img class="gif-kernel" src="assets/kernel-gif2.gif" alt="gif" style="width: 50%;"> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+{
+  "/pWLogin": {
+    "target": "http://192.168.38.198",
+    "secure": false
+  }
+}
+
