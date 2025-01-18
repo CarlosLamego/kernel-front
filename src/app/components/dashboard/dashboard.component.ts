@@ -2,44 +2,57 @@ import { Component, inject, OnInit } from '@angular/core';
 import { IDados } from '../../interfaces/dados.interface';
 import { DadosListService } from '../../services/dados-list.service';
 import { AsyncPipe } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { DadosListResponse } from '../../types/dados-list-response';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ 
-    // AsyncPipe
-   ],
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
-
-
 export class DashboardComponent implements OnInit {
-  dadosList: IDados[] =[];
-  constructor(private _router: Router) {}
+  // Lista para armazenar os dados localmente
+  dadosList: IDados[] = [];
+  userData: any = {};
+  authToken: string | null = null;
 
-  dadosList$: Observable<DadosListResponse> = of([])
+  // Observable para uso no template com pipe async
+  dadosList$: Observable<DadosListResponse> = of([]);
 
-  private readonly _dadosListService = inject(DadosListService)
+  // Injetar o serviço usando o método inject
+  private readonly _dadosListService = inject(DadosListService);
 
-  ngOnInit(): void {
+  ngOnInit() {
+    // Buscar os dados e atribuir ao observable
+    // this.dadosList$ = this._dadosListService.getDados().pipe(
+    //   catchError((error) => {
+    //     // console.error('Erro ao buscar dados:', error);
+    //     return of([]); // Retornar array vazio em caso de erro
+    //   })
+    // );
+
+    const storedData = localStorage.getItem('userData');
     const token = localStorage.getItem('authToken');
 
-    if (!token) {
-      this._router.navigate(['/login'])
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      this.userData = parsedData.usuario || {}; // Acessa os dados do usuário
     }
 
+    if (token) {
+      this.authToken = token; // Acessa o token de autenticação
+    }
 
-    // this._dadosListService.getDados().subscribe({ 
-    //   next: (data) => {
-    //     console.log ('Dados Recebidos: ', data);
-    //   },
-    //   error: (error) => {
-    //     console.error('Erro ao buscar dados: ', error)
-    //   },
+    // Verifique os dados recebidos
+    console.log('Dados Recebidos:', this.userData);
+    console.log('Token Recebido:', this.authToken);
+    
+    // Caso queira armazenar localmente também
+    // this.dadosList$.subscribe((data) => {
+    //   this.dadosList = data;
+    //   console.log('Dados Recebidos:', data);
     // });
   }
-
 }

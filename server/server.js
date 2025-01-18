@@ -12,7 +12,7 @@ const TOKEN_EXPIRATION = 300;
 const users = [
     { 
       login: 'BISOFT', 
-      password: 'BISOFT07', 
+      senha: 'BISOFT07', 
       scopes: ['dashboard', 'pagamentos'],
       walletStatus: 'active',
     },

@@ -1,11 +1,12 @@
 export interface IDados {
-  user: {
-    id: number;
-    login: string;
-    name: string;
+  usuario: {
+    cdPessoaEmp: number;
+    cdPessoaUsr: string;
     email: string;
-    password: string;
+    login: string;
+    nome: string;
     role: string;
+    senha: string;
   };
   token: string;
 }

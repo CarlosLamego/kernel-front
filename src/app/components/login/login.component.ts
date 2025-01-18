@@ -8,16 +8,19 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isPressed = false;
+  userData = [];
+  authToken = [''];
 
   constructor(
     private _fb: FormBuilder,
@@ -36,17 +39,31 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
+  
     const credentials = this.loginForm.value;
-
+  
     // Chama o serviço de login
     this._authService.login(credentials).subscribe({
       next: (response) => {
         console.log('Response Login', response);
-
-        // Armazena o token no localStorage ou em um serviço
-        if (response.token) {
-          localStorage.setItem('authToken', response.token);
+  
+        // Verifica se a resposta está correta
+        if (response.codigo === 1 && response.conteudo && response.conteudo.length > 0) {
+          const user = response.conteudo[0].usuario;  // Primeiro item é o usuário
+          const token = response.conteudo[1].token;  // Segundo item é o token
+  
+          // Exibe os dados do usuário e token
+          console.log('User:', user);
+          console.log('Token:', token);
+  
+          // Armazena os dados no localStorage
+          localStorage.setItem('userData', JSON.stringify({ usuario: user }));  // Armazenando apenas o usuário
+          localStorage.setItem('authToken', token);  // Armazenando o token
+  
+          // Verifica se os dados foram realmente armazenados
+          console.log('Stored userData:', localStorage.getItem('userData'));
+          console.log('Stored authToken:', localStorage.getItem('authToken'));
+  
         }
         // Redireciona para o dashboard após login
         this._router.navigate(['/dashboard']);
@@ -57,24 +74,4 @@ export class LoginComponent implements OnInit {
       },
     });
   }
-  //   console.log(this.loginForm.value.username, this.loginForm.value.password);
-
-  //   this._authService
-  //     .login(this.loginForm.value.username, this.loginForm.value.password)
-  //     .subscribe({
-  //       next: (_) => {
-  //         this._router.navigate(['dashboard']);
-  //       },
-  //       error: (error) => {
-  //         console.log(error);
-  //         const UNAUTHORIZED_CREDENTIAL_ERROR = 401;
-
-  //         if (error.status === UNAUTHORIZED_CREDENTIAL_ERROR) {
-  //           this.loginForm.setErrors({ invalidCredentials: true });
-  //         } else {
-  //           this.loginForm.setErrors({ generalCredentialsError: true });
-  //         }
-  //       },
-  //     });
-  // }
 }

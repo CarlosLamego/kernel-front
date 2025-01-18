@@ -1,25 +1,25 @@
+<!-- dashboard.component.html -->
+<div *ngIf="userData">
+    <h1>Bem-vindo, {{ userData.nome }}</h1>
+    <p><strong>ID:</strong> {{ userData.cdPessoaUsr }}</p>
+    <p><strong>Email:</strong> {{ userData.email }}</p>
+    <p><strong>Login:</strong> {{ userData.login }}</p>
+    <p><strong>Empresa:</strong> {{ userData.cdPessoaEmp }}</p>
+  
+    <!-- Exibe o token de autenticação, se necessário -->
+    <p><strong>Token de Autenticação:</strong> {{ authToken }}</p>
+  </div>
+  
+  <!-- Caso não tenha dados ou o login não tenha sido feito, exibe uma mensagem -->
+  <div *ngIf="!userData">
+    <p>Você não está autenticado. Por favor, faça login.</p>
+  </div>
+  
 
-<p> Algo aqui!</p>
 <!-- 
-/* **ngFor="let item of list" (dado of dadosList$ | async; track dado) { -->
-    
-    <!-- <div If="dadosList.length > 0; else loading"> -->
-        <!-- <div>
-            <ul>
-                <li>
-                    <p>ID: {{ dado.user.id }}</p>
-                    <p>Login: {{ dado.user.login }}</p>
-                    <p>Nome: {{ dado.user.name }}</p>
-                    <p>E-mail: {{ dado.user.email }}</p>
-                    <p>Role: {{ dado.user.role }}</p> 
-                    <p>Token: {{ dado.token }}</p>
-                    <hr />
-                </li>
-            </ul>
-        </div> -->
-    
-    <!-- <ng-template #loading>
-        <p>Carregando dados...</p>
-    </ng-template> -->
-    
-<!-- } -->
+<div *ngIf="userData">
+    <H2> BEM VINDO</H2>
+  <h1>Bem-vindo, {{ userData.nome }}</h1>
+  <p>ID: {{ userData.nome }}</p>
+  Outros dados do usuário
+</div> -->

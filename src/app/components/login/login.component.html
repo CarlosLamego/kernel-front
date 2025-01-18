@@ -23,6 +23,7 @@
               (mousedown)="isPressed = true"
               (mouseup)="isPressed = false"
               (mouseleave)="isPressed = false"
+              [disabled]="loginForm.invalid || isPressed" 
               [class.pressed]="isPressed"
 
             >
@@ -31,14 +32,12 @@
             <!-- <a href=""><p>Saiba mais sobre o Kernel</p></a> -->
           </div>
           <div class="login__alert-message">
-            @if (loginForm.invalid) { @if
-            (loginForm.hasError('invalidCredentials')) {
-            <p class="poppins-semibold">Credenciais inválidas</p>
-            } @if (loginForm.hasError('generalCredentialsError')) {
-            <p class="poppins-semibold">
-              Ocorreu um erro inesperado, tente novamente mais tarde
+            <p *ngIf="loginForm.errors?.['invalidCredentials']" class="poppins-semibold">
+              Credenciais inválidas. Verifique seu login e senha.
             </p>
-            } }
+            <p *ngIf="loginForm.errors?.['generalError']" class="poppins-semibold">
+              Ocorreu um erro inesperado. Tente novamente mais tarde.
+            </p>
           </div>
         </form>
       </div>
